@@ -1,70 +1,74 @@
-import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
- 
-    public static void main(String[] args) throws IOException {
-        
+
+    public static void main(String[] args) {
+
         try {
-            
+
             Scanner tc = new Scanner (System.in);
-            int quant = Integer.valueOf(tc.next());
-            int cont = 0;
+            int quant = Integer.parseInt(tc.next());
             int[] num = new int[2];
             int[] den = new int[2];
             char operacao;
-            do {
-                num[0] = Integer.valueOf(tc.next()); tc.next();
-                den[0] = Integer.valueOf(tc.next()); 
+            for (int k=0; k<quant; k++) {
+                num[0] = Integer.parseInt(tc.next());
+                tc.next();
+                den[0] = Integer.parseInt(tc.next());
                 operacao = tc.next().charAt(0);
-                num[1] = Integer.valueOf(tc.next()); tc.next();
-                den[1] = Integer.valueOf(tc.next());
-                
+                num[1] = Integer.parseInt(tc.next());
+                tc.next();
+                den[1] = Integer.parseInt(tc.next());
+
                 int[] res = new int[2];
-                switch(operacao){
-                 
-                 case '+': 
-                    res[0] = num[0]*den[1] + num[1]*den[0]; 
-                    res[1] = den[0]*den[1];
-                    break;
-                 case '-': 
-                    res[0] = num[0]*den[1] - num[1]*den[0]; 
-                    res[1] = den[0]*den[1];
-                    break;  
+                switch (operacao) {
+
+                    case '+' -> {
+                        res[0] = num[0] * den[1] + num[1] * den[0];
+                        res[1] = den[0] * den[1];
+                    }
+
+                    case '-' -> {
+                        res[0] = num[0] * den[1] - num[1] * den[0];
+                        res[1] = den[0] * den[1];
+                    }
+
+                    case '*' -> {
+                        res[0] = num[0] * num[1];
+                        res[1] = den[0] * den[1];
+                    }
+
+                    case '/' -> {
+                        res[0] = num[0] * den[1];
+                        res[1] = num[1] * den[0];
+                    }
                 }
-                
-        
-                int[] vet = funcoes.simplifica(num, den);
-                System.out.println(vet[0]);
-                System.out.println(vet[1]);
-                cont++;
-            
-                
-            } while(cont<quant);
-            
+
+                int i = 2;
+                int[] antigo = {res[0], res[1]};
+                if (res[0] < 0) {
+                    res[0] = -res[0];
+                    while (res[0] >= i & res[1] >= i) {
+                        if ((res[0] % i == 0) & (res[1] % i == 0)) {
+                            res[0] = res[0] / i;
+                            res[1] = res[1] / i;
+                        } else
+                            i++;
+                    }
+                    res[0] = -res[0];
+                }else
+                    while (res[0] >= i & res[1] >= i) {
+                        if ((res[0] % i == 0) & (res[1] % i == 0)) {
+                            res[0] = res[0] / i;
+                            res[1] = res[1] / i;
+                        } else
+                            i++;
+                    }
+                System.out.printf("%d/%d = %d/%d\n", antigo[0], antigo[1], res[0], res[1]);
+            }
+            System.exit(0);
         }catch (Exception NumberFormatException){
             System.exit(1);
-        }catch (ArrayIndexOutOfBoundsException e){
-            System.exit(1);
-        }
-    }
- 
-}
-
-class funcoes {
-    
-    public static int[] simplifica (int num, int den){
-        int i=2;
-        while (true){
-            if (num >= i & den >= i) {
-                if ((num % i == 0) & (den % i == 0)){
-                    num = num/i;
-                    den = den/i;
-                } else
-                    i++;
-            }else{
-                return new int[] {num, den};
-            }
         }
     }
 }
