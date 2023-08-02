@@ -4,33 +4,45 @@ public class Main
 {
     public static void main (String[] args)
     {
+        Scanner tc = new Scanner(System.in);
         int quantEstrelas = 0;
-        int carneiros = 0;
+        long carneiros = 0;
+        int quant = Integer.parseInt(tc.nextLine());
+        long[] estrelas = new long[quant];
         try {
-            Scanner tc = new Scanner(System.in);
-            int quant = Integer.parseInt(tc.nextLine());
-            int[] estrelas = new int[quant];
             for (int i = 0; i < quant; i++)
                 estrelas[i] = Integer.parseInt(tc.next());
-            int a = quant;
+            int atual = 0;
             do {
-                    if (estrelas[quant - 1] % 2 == 0) {
-                        if (estrelas[quant - 1] > 0) {
-                            carneiros = carneiros + estrelas[quant - 1] - 1;
-                            quantEstrelas++;
-                            quant = quant + 1;
-                        } else {
-                            quantEstrelas++;
-                            quant = quant + 1;
-                        }
-                    } else {
-                            carneiros = carneiros + estrelas[quant - 1] - 1;
-                            quantEstrelas++;
-                            quant = quant - 1;
+                System.out.println(atual);
+                for (int i = 0; i<quant; i++)
+                    System.out.print(" " + estrelas[i]);
+                System.out.println();
 
-                    }
+                long antigo = estrelas[atual];
+
+                if (quantEstrelas <= atual)
+                    quantEstrelas++;
+
+                if (estrelas[atual] > 0) {
+                    estrelas[atual]--;
+                    if (atual >= quantEstrelas) {
+                        carneiros = carneiros + estrelas[atual];
+                    } else
+                        carneiros--;
+                }
+
+                if (antigo % 2 == 0)
+                    atual--;
+                else
+                    atual++;
+
             } while (true);
+
         }catch (Exception ArrayOutOfBoudsException) {
+            if (quant > quantEstrelas)
+                for (int i = quantEstrelas+1; i <= quant; i++)
+                    carneiros += estrelas[i];
             System.out.println(quantEstrelas + " " + carneiros);
             System.exit(0);
         }
