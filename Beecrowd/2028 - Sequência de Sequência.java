@@ -5,27 +5,44 @@ public class Main
     public static void main (String[] args)
     {
         Scanner tc = new Scanner(System.in);
-
         try {
             int j = 1;
+            int[] salva = new int[200];
+            salva[0] = 1;
+            salva[1] = 2;
+            int numMax = 0;
             while(tc.hasNext())
             {
                 int num = Integer.parseInt(tc.nextLine());
-                int quant = 1;
+                System.out.println(num);
 
-                for (int i=0; i<num; i++)
-                    quant += i+1;
+                if (num > numMax) {
+                    for (int i = numMax; i < num; i++) {
+                        if (i > 0)
+                            salva[i+1] = salva[i] + i+1;
+                    }
+                    numMax = num;
+                }
 
-                if (quant == 1)
+                if (salva[num] == 1)
                 {
-                    System.out.println("Caso " + j + ": " + quant + " numero" + "\n0");
+                    System.out.println("Caso " + j + ": " + salva[num] + " numero" + "\n0");
                     j++;
                 } else
                 {
-                    System.out.print("Caso " + j + ": " + quant + " numeros" + "\n0 ");
-                    for (int i = 1; i <= num; i++)
-                        for (int k = 0; k < i; k++)
-                            System.out.print(i + " ");
+                    System.out.print("Caso " + j + ": " + salva[num] + " numeros" + "\n0 ");
+                    int k = 1;
+                    int l=0;
+                    while (k<=num){
+                        if (l<k) {
+                            System.out.print(k + " ");
+                            l++;
+                        } else {
+                            l = 0;
+                            k++;
+                        }
+                    }
+
                     System.out.println();
                     j++;
                 }
