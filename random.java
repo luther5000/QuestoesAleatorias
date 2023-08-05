@@ -1,60 +1,36 @@
-import java.util.Scanner;
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        String usa;
+        int maior = 1;
+        if (s.length() == 0)
+            return 0;
+        for (int i = 0; i<s.length()-1; i++){
+            
+            usa = s.substring(i+1);
 
-public class Main
-{
-	public static void main(String[] args) {
-		Scanner tc = new Scanner (System.in);
-		int valor = Integer.parseInt(tc.nextLine());
-		
-	}
-}
+            if (usa.lastIndexOf(s.charAt(i)) == -1){
+                for (int j = i; j<s.length(); j++) {
 
-class Funcoesn{
-    public static int binaria (int[] vet, int valor){
-        
-        
-        if (length(vet) != 1) {
-            
-            int i = length(vet)/2;
-            
-            if (vet[i] == valor)
-                return i;
-            
-            if (vet[i] != valor){
-                int newVet = new int[i];
-                for (int j = 0; j<length(vet); j++) {
-                    newVet[j] = vet[i];
-                    if (vet[i] > valor)
-                        i++;
-                    else
-                    i--;
+                    if (usa.lastIndexOf(s.charAt(j)) != -1) {
+                        if (usa.lastIndexOf(s.charAt(j)) - usa.indexOf(s.charAt(j)) > maior)
+                            maior = usa.lastIndexOf(s.charAt(j)) - usa.indexOf(s.charAt(j));
+                    } else if (usa.length() - usa.indexOf(s.charAt(j)) > maior) {
+                        int tem = 0;
+                        for (int k = j; k < usa.length(); k++)
+                            if (usa.lastIndexOf(usa.charAt(k)) != usa.indexOf(usa.charAt(k)))
+                                tem++;
+                        if (tem == 0)
+                            maior = usa.length() - usa.indexOf(s.charAt(j));
+                    }
                 }
-                binaria(newVet, valor);
+                break;
             }
-        } else
-            
-            return -1;
-    }
-    
-    public static int normal (int[] vet, int valor){
-        for (int i = 0; i<length(vet); i++)
-            if (vet[i] == valor)
-                return i;
+
+            if (usa.indexOf(s.charAt(i)) > maior)
+                maior = usa.indexOf(s.charAt(i));
         
-        return -1;        
+        }
+
+        return maior;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
