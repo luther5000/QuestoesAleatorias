@@ -36,9 +36,11 @@ public class Main {
 
             }
             if (cont == 0)
-                System.out.println("No carry operations.");
-            else
-                System.out.println(cont + " No carry operations.");
+                System.out.println("No carry operation.");
+            else if (cont == 1)
+                System.out.println(cont + " carry operation.");
+            else 
+                System.out.println(cont + " carry operations.");
         }
     }
 
