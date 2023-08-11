@@ -3,25 +3,38 @@ import java.util.Scanner;
 class Main{
    public static void main (String[] args){
       Scanner tc = new Scanner(System.in);
-      Lista tudo = new Lista();
+      Lista atual = new Lista();
+      Lista novo = new Lista();
       String linha;
 
       for (int i = 0; i < 2; i++){
-         linha = tc.nextLine();
-         tudo.adicionaString(linha.split(" "));
+         if (i == 0) {
+            linha = tc.nextLine();
+            atual.adicionaString(linha.split(" "));
+         }
+         else {
+            linha = tc.nextLine();
+            novo.adicionaString(linha.split(" "));
+         }
       }
 
       linha = tc.nextLine();
 
-      if (linha.equalsIgnoreCase("nao"))
-         tudo.printa();
+      if (linha.equalsIgnoreCase("nao")) {
+         atual.printa();
+         novo.printa();
+      }
       else {
-         for (int i = 1; i <= tudo.getTam(); i++) {
-            if (tudo.retorna(i).equals(linha))
-               tudo.printa();
-            System.out.print(tudo.retorna(i) + " ");
+         for (int i = 1; i <= atual.getTam(); i++) {
+            if (atual.retorna(i).equals(linha))
+               novo.printa();
+            if (i != atual.getTam())
+               System.out.print(atual.retorna(i) + " ");
+            else
+               System.out.print(atual.retorna(i));
          }
       }
+      System.out.println();
    }
 }
 
@@ -51,8 +64,8 @@ class Lista{
          return;
       else
          for (int i = 1; i <= tam; i++) {
-            System.out.print(aux.getNome() + " ");
-            aux = aux.getProx();
+               System.out.print(aux.getNome() + " ");
+               aux = aux.getProx();
          }
    }
 
