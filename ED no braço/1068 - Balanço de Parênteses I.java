@@ -5,6 +5,7 @@ public class Main {
         Scanner tc = new Scanner(System.in);
         Pilha pilha = new Pilha();
         while (tc.hasNext()) {
+            pilha.limpaPilha();
             String s = tc.nextLine();
             for (int i = 0; i < s.length(); i++) {
                 if (s.charAt(i) == '(')
@@ -55,5 +56,11 @@ class Pilha{
 
     public boolean vazia(){
         return (tam==0);
+    }
+    
+    public void limpaPilha(){
+        while (tam>0){
+            --tam;
+        }
     }
 }
