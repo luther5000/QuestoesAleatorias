@@ -7,11 +7,11 @@ public class Main {
             int quant = Integer.parseInt(tc.nextLine());
             if (quant == 0)
                 System.exit(0);
-            Lista baralho = new Lista();
+            Fila baralho = new Fila();
             for (int i = quant; i >= 1; i--)
                 baralho.adiciona(i);
             baralho.printaAll();
-            Lista jogadasFora = new Lista();
+            Fila jogadasFora = new Fila();
             while (baralho.getTam() >= 2){
                 jogadasFora.adiciona(baralho.remove());
                 baralho.mudaPosicao();
@@ -25,44 +25,41 @@ public class Main {
 }
 
 
-class Lista{
-    private No cabeca;
-    private int tam;
-    private No ultimo;
+class Fila{
+    int[] vet;
+    int inicio;
+    int fim;
 
-    public Lista() {
-        cabeca = null;
-        tam = 0;
-        ultimo = null;
+    public Fila(){
+        vet = new int[15];
+        inicio = 0;
+        fim = 0;
     }
 
     public void adiciona(int num){
-        No novoNo = new No(num);
-        novoNo.setProx(cabeca);
-        cabeca = novoNo;
-        if (tam == 0)
-            ultimo = novoNo;
-        tam++;
+        vet[fim++] = num;
     }
 
     public int remove(){
-        if (tam > 0) {
-            int aux = cabeca.getCarta();
-            cabeca = cabeca.getProx();
-            tam--;
-            return aux;
-        }
-        return -1;
+        return vet[inicio++];
     }
 
-    public void mudaPosicao() {
-        if (tam >= 2) {
-            ultimo.setProx(cabeca);
-            cabeca = cabeca.getProx();
+    public void mudaPosicao(){
+        int a = vet[inicio];
+        for (int i = inicio; i < fim-1; i++){
+            vet[i] = vet[i+1];
         }
+        vet[fim] = a;
     }
 
-    public void printa(){
+    public void printaAll(){
+        for ()
+    }
+
+    public int getTam(){
+        return fim;
+    }
+    /*public void printa(){
         if (tam == 0)
             System.out.println();
         else if (tam == 1)
@@ -89,26 +86,5 @@ class Lista{
     }
 
     public int getTam(){ return tam; }
-}
-
-class No {
-    private int carta;
-    private No prox;
-
-    public No(int carta) {
-        this.carta = carta;
-        prox = null;
-    }
-
-    public int getCarta() {
-        return carta;
-    }
-
-    public No getProx(){
-        return prox;
-    }
-
-    public void setProx(No prox) {
-        this.prox = prox;
-    }
+}*/
 }
