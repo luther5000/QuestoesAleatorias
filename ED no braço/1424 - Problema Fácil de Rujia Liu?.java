@@ -4,17 +4,19 @@ public class Main {
     public static void main (String[] args) {
         Scanner tc = new Scanner(System.in);
 
-        int tamVet = Integer.parseInt(tc.next());
-        int quant = Integer.parseInt(tc.nextLine().substring(1));
 
-        Lista vetor = new Lista(tamVet);
-        for (int i = 0; i < tamVet; i++)
-            vetor.adiciona(Integer.parseInt(tc.next()));
-        tc.nextLine();
+            int tamVet = Integer.parseInt(tc.next());
+            int quant = Integer.parseInt(tc.nextLine().substring(1));
 
-        for (int i = 0; i < quant; i++)
-            System.out.println(vetor.compara(Integer.parseInt(tc.next()), Integer.parseInt(tc.nextLine().substring(1))));
+            Lista vetor = new Lista(tamVet);
+            for (int i = 0; i < tamVet; i++)
+                vetor.adiciona(Integer.parseInt(tc.next()));
+            tc.nextLine();
 
+        while (tc.hasNext()) {
+                System.out.println(vetor.compara(Integer.parseInt(tc.next()), Integer.parseInt(tc.next())));
+                tc.nextLine();
+        }
     }
 }
 
