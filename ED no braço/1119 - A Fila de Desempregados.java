@@ -74,32 +74,38 @@ class Lista {
 
     public int[] remove(int horario, int antiHorario){
         No aux1 = atualH;
-        for (int i = 1; i < horario; i++){
-            aux1 = aux1.getProx();
-        }
+        if (tamAtual > 1) {
+            for (int i = 1; i < horario; i++) {
+                aux1 = aux1.getProx();
+            }
 
-        No aux2 = atualA;
-        for (int i = 0; i < antiHorario; i++)
-            aux2 = aux2.getAnt();
+            No aux2 = atualA;
+            for (int i = 0; i < antiHorario; i++)
+                aux2 = aux2.getAnt();
 
-        pessoaHorarioAtual = aux1.getNum();
-        atualH = aux1.getProx();
-        pessoaAntiHorarioAtual = aux2.getNum();
-        atualA = aux2.getProx();
+            pessoaHorarioAtual = aux1.getNum();
+            atualH = aux1.getProx();
+            pessoaAntiHorarioAtual = aux2.getNum();
+            atualA = aux2.getProx();
 
-        if (pessoaHorarioAtual == pessoaAntiHorarioAtual){
-            int[] vet = {pessoaHorarioAtual};
-            aux1.getAnt().setProx(aux1.getProx());
-            aux1.getProx().setAnt(aux1.getAnt());
-            --tamAtual;
-            return vet;
+            if (pessoaHorarioAtual == pessoaAntiHorarioAtual) {
+                int[] vet = {pessoaHorarioAtual};
+                aux1.getAnt().setProx(aux1.getProx());
+                aux1.getProx().setAnt(aux1.getAnt());
+                --tamAtual;
+                return vet;
+            } else {
+                aux1.getAnt().setProx(aux1.getProx());
+                aux1.getProx().setAnt(aux1.getAnt());
+                aux2.getAnt().setProx(aux2.getProx());
+                aux2.getProx().setAnt(aux2.getAnt());
+                int[] vet = {pessoaHorarioAtual, pessoaAntiHorarioAtual};
+                tamAtual -= 2;
+                return vet;
+            }
         } else{
-            aux1.getAnt().setProx(aux1.getProx());
-            aux1.getProx().setAnt(aux1.getAnt());
-            aux2.getAnt().setProx(aux2.getProx());
-            aux2.getProx().setAnt(aux2.getAnt());
-            int[] vet = {pessoaHorarioAtual, pessoaAntiHorarioAtual};
-            tamAtual -= 2;
+            int[] vet = {aux1.getNum()};
+            --tamAtual;
             return vet;
         }
     }
