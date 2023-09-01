@@ -8,6 +8,8 @@ public class Main {
         int k = Integer.parseInt(tc.next());
         int m = Integer.parseInt(tc.nextLine().substring(1));
 
+        /*System.out.println(n + " " + k + " " + m);*/
+
         while (!(n == 0 && k == 0 && m ==0)) {
 
             Lista lista = new Lista(n);
@@ -18,15 +20,23 @@ public class Main {
                 int[] vet = lista.remove(k, m);
                 /*lista.printa();*/
                 if (vet.length == 1)
-                    System.out.print(" " + vet[0] + ",");
+                    if (vet[0] < 10)
+                        System.out.print("  " + vet[0]);
+                    else
+                        System.out.print(" " + vet[0]);
                 else
                     for (int i = 0; i < vet.length; i++)
-                        System.out.print("  " + vet[i]);
+                        if (vet[i] < 10)
+                            System.out.print("  " + vet[i]);
+                        else
+                            System.out.print(" " + vet[i]);
 
                 if (!lista.vazia()){
                     System.out.print(",");
                 }
             }
+
+            System.out.println();
 
             n = Integer.parseInt(tc.next());
             k = Integer.parseInt(tc.next());
@@ -84,9 +94,15 @@ class Lista {
                 aux2 = aux2.getAnt();
 
             pessoaHorarioAtual = aux1.getNum();
-            atualH = aux1.getProx();
+            if (aux1.getProx() == aux2)
+                atualH = aux1.getProx().getProx();
+            else
+                atualH = aux1.getProx();
             pessoaAntiHorarioAtual = aux2.getNum();
-            atualA = aux2.getProx();
+            if (aux2.getProx() == aux1)
+                atualA = aux2.getProx().getProx();
+            else
+                atualA = aux2.getProx();
 
             if (pessoaHorarioAtual == pessoaAntiHorarioAtual) {
                 int[] vet = {pessoaHorarioAtual};
