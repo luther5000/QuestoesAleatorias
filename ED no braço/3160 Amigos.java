@@ -34,7 +34,7 @@ class Main{
                     break;
                 }
                 if (i != atual.getTam())
-                    System.out.print(atual.retorna(i) + "  ");
+                    System.out.print(atual.retorna(i) + " ");
                 else
                     System.out.print(atual.retorna(i));
             }
@@ -68,18 +68,18 @@ class Lista{
         if (verifica())
             return;
         else
-            if (verifica == 1)
-                for (int i = 1; i <= tam; i++) {
+        if (verifica == 1)
+            for (int i = 1; i <= tam; i++) {
 
-                    System.out.print(aux.getNome() + " ");
-                    aux = aux.getProx();
+                System.out.print(aux.getNome() + " ");
+                aux = aux.getProx();
 
-                }
-            else
-                for (int i = 1; i <= tam; i++) {
-                    System.out.print(aux.getNome() + "  ");
-                    aux = aux.getProx();
-                }
+            }
+        else
+            for (int i = 1; i <= tam; i++) {
+                System.out.print(aux.getNome() + " ");
+                aux = aux.getProx();
+            }
     }
 
     public void printaApartir (String s){
@@ -100,7 +100,7 @@ class Lista{
             }
         } else {
             while (cont < tam) {
-                if (cont - 1 != tam)
+                if (cont + 1 != tam)
                     System.out.print(aux.getNome() + " ");
                 else
                     System.out.print(aux.getNome());
