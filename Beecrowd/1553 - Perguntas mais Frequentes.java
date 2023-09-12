@@ -17,7 +17,7 @@ class Main {
                 vet[i] = Integer.parseInt(tc.next());
             tc.nextLine();
 
-            System.out.println(numeros(vet, repeticoes));
+            System.out.println(numeros(vet, repeticoes, tamString));
 
             tamString = Integer.parseInt(tc.next());
             repeticoes = Integer.parseInt(tc.next());
@@ -25,21 +25,19 @@ class Main {
         }
     }
 
-    public static int numeros(int[] vet, int quantos){
-        int[] verifica = new int[vet.length];
+    public static int numeros(int[] vet, int quantos, int tam){
         int retorno = 0;
         List list = new ArrayList();
 
-        for (int i = 0; i < vet.length; i++) {
-            if (verifica[vet[i]] == 0){
-                if (repeticoes(vet, vet[i], quantos, list))
+        for (int i = 0; i < tam; i++) {
+                if (repeticoes(vet, vet[i], quantos, list, tam))
                     ++retorno;
-            }
+            
         }
         return retorno;
     }
 
-    public static boolean repeticoes(int[] vet, int num, int quantos, List list) {
+    public static boolean repeticoes(int[] vet, int num, int quantos, List list, int tam) {
         int verifica = 0;
 
         for (int i = 0; i < list.size(); i++) {
@@ -48,7 +46,7 @@ class Main {
         }
 
         list.add(num);
-        for (int i = 0; i < vet.length; i++){
+        for (int i = 0; i < tam; i++){
             if (vet[i] == num)
                 ++verifica;
             if (verifica == quantos)
