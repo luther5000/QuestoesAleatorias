@@ -24,14 +24,18 @@ class Main {
             System.out.println("Qual o vértice de destino?");
             int destino = Integer.parseInt(tc.nextLine())-1;
 
-            grafo.bfs(origem);
-            int[] caminho = grafo.caminho(origem, destino);
 
-            for(int i = 0; i < caminho.length; i++)
-                if (i != caminho.length-1)
-                    System.out.print(caminho[i] + " ");
-                else
-                    System.out.println(caminho[i]);
+            int[] caminho = grafo.caminho(origem, destino);
+            if (caminho[destino] == 0)
+                System.out.println("Não há caminho entre os vértices");
+            else
+                for(int i = 0; i < caminho.length; i++)
+                    if (i != caminho.length-1)
+                        System.out.print(caminho[i] + " ");
+                    else
+                        System.out.println(caminho[i]);
+
+            System.out.println("Número de componentes conexas: " + grafo.numCompConexa());
 
             System.out.println("Deseja sair?\n1. Sim\n2. Não");
             origem = Integer.parseInt(tc.nextLine());
@@ -60,16 +64,18 @@ class Grafo {
     private int tam;
     private int[][] dist;
     private int[][] ant;
+    private boolean[] jaFez;
 
 
     public Grafo(int tam){
         matrizAdjacencia = new int[tam][tam];
         list = new List[tam];
         for (int i = 0; i < tam; i++)
-            list[i] = new LinkedList<>();
+            list[i] = new ArrayList<>();
         this.tam = tam;
         dist = new int[tam][tam];
         ant = new int[tam][tam];
+        jaFez = new boolean[tam];
     }
 
 
@@ -85,12 +91,7 @@ class Grafo {
         }
     }
 
-    public int[] bfs(int inicio){
-        int[] teste = new int[tam];
-        if (!(Arrays.equals(ant[inicio], teste)))
-            return ant[inicio];
-        teste = null;
-
+    private int[] bfs(int inicio){
         boolean[] flag = new boolean[tam];
         Queue<Integer> fila = new LinkedList<>();
 
@@ -103,7 +104,7 @@ class Grafo {
 
             for (int j = 0; j < list[atual].size(); j++){
                 if (!(flag[list[atual].get(j)])){ //pegar o indicie que se refere ao no na lista e ver se esse no ja foi visto
-                    ant[inicio][list[atual].get(j)] = atual;
+                    ant[inicio][list[atual].get(j)] = atual+1;
 
                     flag[list[atual].get(j)] = true;
                     fila.add(list[atual].get(j));
@@ -112,12 +113,10 @@ class Grafo {
                 }
             }
         }
-        printVetor(ant, inicio);
-        printVetor(dist, inicio);
         return ant[inicio];
     }
 
-    public void printVetor(int[][] matriz, int indice){
+    /*public void printVetor(int[][] matriz, int indice){
         for (int i = 0; i < matriz.length; i++){
             System.out.print(matriz[indice][i] + " ");
         }
@@ -128,16 +127,67 @@ class Grafo {
         for(int i = 0; i < vetor.length; i++)
             System.out.print(vetor[i] + " ");
         System.out.println();
-    }
+    }*/
 
     public int[] caminho(int origem, int destino){
-        int aux = ant[origem][destino];
-        int[] retorno = new int[dist[origem][destino]];
-        for (int i = 0; i < dist[origem][destino]; i++) {
-            retorno[i] = aux;
-            aux = ant[origem][aux];
+        if (jaFez[origem]) {
+            int aux = ant[origem][destino];
+            int[] retorno = new int[dist[origem][destino]];
+            for (int i = dist[origem][destino] - 1; i >= 0; i--) {
+                retorno[i] = aux;
+                aux = ant[origem][aux];
+            }
+            return retorno;
+        } else {
+            jaFez[origem] = true;
+            bfs(origem);
+
+            int aux = ant[origem][destino];
+            int[] retorno = new int[dist[origem][destino]];
+            for (int i = dist[origem][destino] - 1; i >= 0; i--) {
+                retorno[i] = aux;
+                aux = ant[origem][aux];
+            }
+            return retorno;
         }
-        printVetor(retorno);
-        return retorno;
+
+    }
+
+    public int numCompConexa(){
+        int quant = 0;
+        int[] pai = dfs();
+
+        for (int i = 0; i < pai.length; i++)
+            if (pai[i] == 0)
+                ++quant;
+
+        return quant;
+    }
+
+    private int[] dfs(){
+        boolean[] flag = new boolean[tam];
+        Stack<Integer> pilha = new Stack<>();
+        int[] pai = new int[tam];
+
+        for (int j = 0; j < list.length; j++) {
+            if (!(flag[j])) {
+                pilha.push(j);
+                flag[j] = true;
+            }
+
+            while (!(pilha.isEmpty())) {
+                int ant = pilha.pop();
+
+                for (int i = 0; i < list[ant].size(); i++) {
+                    if (!(flag[list[ant].get(i)])) {
+                        flag[list[ant].get(i)] = true;
+                        pai[list[ant].get(i)] = ant;
+
+                        pilha.push(list[ant].get(i));
+                    }
+                }
+            }
+        }
+        return pai;
     }
 }
