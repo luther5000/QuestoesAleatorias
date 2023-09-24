@@ -5,6 +5,32 @@ class Main {
 
     public static void main(String[] args) {
         Scanner tc = new Scanner(System.in);
+        int tam = Integer.parseInt(tc.next());
+        int numEstradas = Integer.parseInt(tc.next());
+        int destino =  Integer.parseInt(tc.next()) - 1;
+        int inicio = Integer.parseInt(tc.next());
+        tc.nextLine();
+
+        while (tam != 0 && numEstradas != 0 && destino != 0 && inicio != 0) {
+            int[] tudo = new int[numEstradas * 3];
+            for (int i = 0; i < tudo.length; i += 3){
+                tudo[i] = Integer.parseInt(tc.next());
+                tudo[i+1] = Integer.parseInt(tc.next());
+                tudo[i+2] = Integer.parseInt(tc.next());
+                tc.nextLine();
+            }
+
+            Grafo grafo = new Grafo(tam, destino);
+            grafo.adiciona(tudo);
+
+            System.out.println(grafo.pedagio(inicio));
+
+            tam = Integer.parseInt(tc.next());
+            numEstradas = Integer.parseInt(tc.next());
+            destino =  Integer.parseInt(tc.next()) - 1;
+            inicio = Integer.parseInt(tc.next());
+            tc.nextLine();
+        }
     }
 }
 
@@ -65,19 +91,24 @@ class Grafo {
     private int calcula (int[] ant){
         int retorno = 0;
         List<Integer> caminho = new ArrayList<>();
-        int aux = ant[rota.get(tam-1)];
-        for (int i = 0; i < ant.length; i++){
-            caminho.add(aux);
-            aux = ant[caminho.get(i)];
-            if (aux == -1)
-                break;
-        }
+        int aux = ant[rota.get(rota.size()-1)];
+        if (aux != -1)
+            for (int i = 0; i < ant.length; i++){
+                System.out.println("entrou");
+                caminho.add(aux);
+                aux = ant[caminho.get(i)];
+                if (aux == -1)
+                    break;
+            }
+        for (int i = 0; i < caminho.size(); i++)
+            System.out.print(caminho.get(i) + " ");
+        System.out.println();
         loop:
         for(int i = caminho.size() - 1; i >= 0; i--){
-            if (!(rota.contains(caminho.get(i)))) {
+            if (!(rota.contains(caminho.get(i))) && ant[caminho.get(i)] != -1) {
                 int j = 0;
-                while ( j <= lista[ant[caminho.get(i)]].size() &&
-                        lista[ant[caminho.get(i)]].get(j).indice != caminho.get(i))
+                while ((j <= lista[ant[caminho.get(i)]].size() &&
+                        lista[ant[caminho.get(i)]].get(j).indice != caminho.get(i)))
                     j++;
 
                 retorno += lista[ant[caminho.get(i)]].get(j).pedagio;
