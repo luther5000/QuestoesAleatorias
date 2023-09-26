@@ -6,8 +6,8 @@ import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        List<String> texto = Files.readAllLines(Path.of("/home/aluno/Downloads/pcv4.txt"), //substitua pelo path completo do arquivo de grafo
-                StandardCharsets.UTF_8);
+        List<String> texto = Files.readAllLines(Path.of("/home/aluno/Downloads/pcv4.txt"), 
+                StandardCharsets.UTF_8); //substitua pelo path completo do arquivo de grafo
         int tam = Integer.parseInt(texto.get(0));
         texto.remove(0);
 
