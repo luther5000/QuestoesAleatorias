@@ -4,7 +4,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 
-class Main {
+public class Main {
     public static void main(String[] args) throws IOException {
         List<String> texto = Files.readAllLines(Path.of("/home/aluno/Downloads/pcv4.txt"),
                 StandardCharsets.UTF_8);
