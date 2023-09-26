@@ -6,7 +6,7 @@ import java.util.*;
 
 class Main {
     public static void main(String[] args) throws IOException {
-        List<String> texto = Files.readAllLines(Path.of("/home/lutero/IdeaProjects/beecrowd/src/pcv4.txt"),
+        List<String> texto = Files.readAllLines(Path.of("/home/aluno/Downloads/pcv4.txt"),
                 StandardCharsets.UTF_8);
         int tam = Integer.parseInt(texto.get(0));
         texto.remove(0);
@@ -26,18 +26,20 @@ class Main {
 
 
             int[] caminho = grafo.caminho(origem, destino);
-            if (caminho[destino] == 0)
+            if (caminho[caminho.length-1] == 0)
                 System.out.println("Não há caminho entre os vértices");
-            else
-                for(int i = 0; i < caminho.length; i++)
-                    if (i != caminho.length-1)
+            else {
+                System.out.print("O caminho entre os vérties é: ");
+                for (int i = 0; i < caminho.length; i++)
+                    if (i != caminho.length - 1)
                         System.out.print(caminho[i] + " ");
                     else
-                        System.out.println(caminho[i]);
+                        System.out.println(caminho[i] + " " + (destino+1));
+            }
 
             System.out.println("Número de componentes conexas: " + grafo.numCompConexa());
 
-            System.out.println("Deseja sair?\n1. Sim\n2. Não");
+            System.out.println("\nDeseja sair?\n1. Sim\n2. Não");
             origem = Integer.parseInt(tc.nextLine());
             if (origem == 1)
                 System.exit(0);
@@ -113,21 +115,10 @@ class Grafo {
                 }
             }
         }
+        for (int i = 0; i < ant[inicio].length; i++)
+            System.out.print(ant[inicio][i]);
         return ant[inicio];
     }
-
-    /*public void printVetor(int[][] matriz, int indice){
-        for (int i = 0; i < matriz.length; i++){
-            System.out.print(matriz[indice][i] + " ");
-        }
-        System.out.println();
-    }
-
-    public void printVetor(int[] vetor){
-        for(int i = 0; i < vetor.length; i++)
-            System.out.print(vetor[i] + " ");
-        System.out.println();
-    }*/
 
     public int[] caminho(int origem, int destino){
         if (jaFez[origem]) {
@@ -158,7 +149,7 @@ class Grafo {
         int[] pai = dfs();
 
         for (int i = 0; i < pai.length; i++)
-            if (pai[i] == 0)
+            if (pai[i] == -1)
                 ++quant;
 
         return quant;
@@ -168,6 +159,7 @@ class Grafo {
         boolean[] flag = new boolean[tam];
         Stack<Integer> pilha = new Stack<>();
         int[] pai = new int[tam];
+        Arrays.fill(pai, -1);
 
         for (int j = 0; j < list.length; j++) {
             if (!(flag[j])) {
