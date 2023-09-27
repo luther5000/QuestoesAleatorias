@@ -1,57 +1,80 @@
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
-    public static void main (String[] args) {
+
+    public static void main(String[] args) {
         Scanner tc = new Scanner(System.in);
 
-
-            int tamVet = Integer.parseInt(tc.next());
-            int quant = Integer.parseInt(tc.nextLine().substring(1));
-
-            Lista vetor = new Lista(tamVet);
-            for (int i = 0; i < tamVet; i++)
-                vetor.adiciona(Integer.parseInt(tc.next()));
+        while (tc.hasNext()){
+            int numVet = Integer.parseInt(tc.next());
+            int casos = Integer.parseInt(tc.next());
             tc.nextLine();
 
-        while (tc.hasNext()) {
-                System.out.println(vetor.compara(Integer.parseInt(tc.next()), Integer.parseInt(tc.next())));
+            int[] vet = new int[numVet];
+            int tamanho = 0;
+            for (int i = 0; i < numVet; i++){
+                vet[i] = Integer.parseInt(tc.next());
+                if (vet[i] > tamanho)
+                    tamanho = vet[i];
+            }
+            tc.nextLine();
+
+            Gambiarra teste = new Gambiarra(tamanho);
+            teste.adiciona(vet);
+
+            while (casos > 0){
+                System.out.println(teste.verifica(Integer.parseInt(tc.next()),
+                        Integer.parseInt(tc.next())));
                 tc.nextLine();
+                --casos;
+            }
         }
+
     }
 }
 
-class Lista {
-    private int vet[];
-    private final int tamMax;
-    private int tamAtual;
+class Gambiarra{
+    private List<Tudo>[] lista;
+    private int tam;
 
-    public Lista(int quant){
-        vet = new int[quant];
-        tamAtual = 0;
-        tamMax = quant;
+    public Gambiarra (int tam) {
+            this.tam = tam + 1;
+            lista = new List[this.tam];
+
+        for (int i = 0; i < this.tam; i++)
+            lista[i] = new LinkedList<>();
     }
 
-    public boolean adiciona (int num){
-        if (tamAtual < tamMax) {
-            vet[tamAtual] = num;
-            tamAtual++;
-            return true;
-        } else {
-            return false;
+    public void adiciona(int[] tudo){
+        for (int i = 0; i < tudo.length; i++){
+            Tudo novo = new Tudo(tudo[i], i);
+            lista[tudo[i]].add(novo);
         }
     }
 
-    public int compara(int ocorrencia, int numero){
-        int i = 0;
-        int indiceAtual = 0;
-        while (i != ocorrencia && indiceAtual < tamMax){
-            if (vet[indiceAtual] == numero)
-                i++;
-            indiceAtual++;
-        }
-        if (i == ocorrencia)
-            return indiceAtual;
-        else
+    public int verifica (int quants, int num){
+        if (lista[num].size() < quants)
             return 0;
+        else {
+            int cont = 0;
+            for (int i = 0; i < lista[num].size(); i++) {
+                if (lista[num].get(i).value == num)
+                    ++cont;
+
+                if (cont == quants)
+                    return lista[num].get(i).indice + 1;
+            }
+
+        }
+        return 0;
+    }
+}
+
+class Tudo {
+    int value;
+    int indice;
+    public Tudo (int value, int indice){
+        this.indice = indice;
+        this.value = value;
     }
 }
