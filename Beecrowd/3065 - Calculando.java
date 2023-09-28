@@ -11,7 +11,6 @@ public class Main {
             Queue<Integer> fila = new LinkedList<>();
             String s = tc.nextLine();
             int num = 0;
-            System.out.println(s.length());
             for (int i = 0; i < s.length(); i++) {
                 if (s.charAt(i) == '+' || s.charAt(i) == '-') {
                     fila.add(Integer.parseInt(s.substring(0, i)));
@@ -36,7 +35,7 @@ public class Main {
                 total += fila.remove();
             }
 
-            System.out.println("Teste " + teste + "\n" + total);
+            System.out.println("Teste " + teste + "\n" + total + "\n");
             numOps = Integer.parseInt(tc.nextLine());
             ++teste;
         }
