@@ -11,6 +11,14 @@ public class Main {
             Queue<Integer> fila = new LinkedList<>();
             String s = tc.nextLine();
             int num = 0;
+
+            if (numOps == 1) {
+                System.out.println("Teste " + teste + "\n" + s + "\n");
+                numOps = Integer.parseInt(tc.nextLine());
+                ++teste;
+                continue;
+            }
+
             for (int i = 0; i < s.length(); i++) {
                 if (s.charAt(i) == '+' || s.charAt(i) == '-') {
                     fila.add(Integer.parseInt(s.substring(0, i)));
@@ -24,7 +32,7 @@ public class Main {
                     }
                 }
             }
-            
+
             if (fila.isEmpty()){
                 numOps = Integer.parseInt(tc.nextLine());
                 continue;
