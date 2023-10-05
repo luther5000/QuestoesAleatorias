@@ -20,8 +20,11 @@ public class Main {
                 estradas = new int[Integer.parseInt(tc.nextLine())*2];
             }
 
-            if (estradas.length == 0) {
-                System.out.println("Caso #" + quantos + ": ainda falta(m) " + (tam-1) + " estrada(s)");
+            if (estradas.length == 0 ) {
+                if (tam > 1)
+                    System.out.println("Caso #" + quantos + ": ainda falta(m) " + (tam-1) + " estrada(s)");
+                else
+                    System.out.println("Caso #" + quantos + ": a promessa foi cumprida");
                 ++quantos;
                 --casos;
                 continue;
