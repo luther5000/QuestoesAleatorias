@@ -1,5 +1,3 @@
-import java.util.*;
-
 class Solution {
     public int romanToInt(String s) {
         Mapa mapa = new Mapa();
@@ -49,7 +47,7 @@ class Mapa {
     public int returnValue(char compara) {
         for (int i = 0; i < lista.length; i++){
             if (lista[i].get(0).rom == compara)
-                return lista[i].get(0).rom;
+                return lista[i].get(0).val;
         }
 
         return -1;
