@@ -20,39 +20,53 @@ class Node {
 
 class Solution {
     public Node cloneGraph(Node node) {
-        List<Node> flag = new ArrayList<>();
         Stack<Node> pilha = new Stack<>();
         List<Node> ret = new LinkedList<>();
-        
+
         Node atual;
         pilha.push(node);
 
         if (node == null || node.neighbors.isEmpty())
             return node;
 
-        for (int i = 0; i < node.neighbors.size(); i++){
-            while (!(pilha.isEmpty())) {
-                atual = pilha.pop();
-                
-                for (int j = 0; j < atual.neighbors.size(); j++) {
+        List<Integer> flag = new ArrayList<>();
+        Stack<Node> pilha2 = new Stack<>();
+
+        while (!(pilha.isEmpty())){
+            atual = pilha.pop();
+            for (int i = 0; i < atual.neighbors.size(); i++) {
+                if (!(flag.contains(atual.neighbors.get(i).val))) {
+                    flag.add(atual.neighbors.get(i).val);
                     Node novo = new Node(atual.val);
-                    
-                    if (!(flag.contains(atual.neighbors.get(j)))) {
-                        flag.add(atual.neighbors.get(j));
-                        
-                        novo.neighbors.add(atual.neighbors.get(j));
-                    }
+                    pilha.push(atual.neighbors.get(i));
                     ret.add(novo);
                 }
             }
-            
-            if (!(flag.contains(node.neighbors.get(i)))){
-                pilha.push(node.neighbors.get(i));
-                flag.add(node.neighbors.get(i));
+            if (!(pilha2.contains(atual))){
+                pilha2.push(atual);
             }
-            
         }
-        
+
+        while (!(pilha2.isEmpty())){
+            atual = pilha2.pop();
+            int index = -1;
+
+            for (int i = 0; i < ret.size(); i++){
+                if (ret.get(i).val == atual.val) {
+                    index = i;
+                    break;
+                }
+            }
+
+            for (int i = 0; i < atual.neighbors.size(); i++){
+                for (int j = 0; j < ret.size(); j++)
+                    if (ret.get(j).val == atual.neighbors.get(i).val){
+                        ret.get(index).neighbors.add(ret.get(j));
+                        break;
+                    }
+            }
+        }
+
         return ret.get(0);
     }
 }
