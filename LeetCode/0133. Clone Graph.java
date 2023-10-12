@@ -26,8 +26,14 @@ class Solution {
         Node atual;
         pilha.push(node);
 
-        if (node == null || node.neighbors.isEmpty())
+        if (node == null) 
             return node;
+
+
+        if (node.neighbors.isEmpty()) {
+            Node novo = new Node (node.val);
+            return novo;
+        }
 
         List<Integer> flag = new ArrayList<>();
         Stack<Node> pilha2 = new Stack<>();
@@ -37,7 +43,7 @@ class Solution {
             for (int i = 0; i < atual.neighbors.size(); i++) {
                 if (!(flag.contains(atual.neighbors.get(i).val))) {
                     flag.add(atual.neighbors.get(i).val);
-                    Node novo = new Node(atual.val);
+                    Node novo = new Node(atual.neighbors.get(i).val);
                     pilha.push(atual.neighbors.get(i));
                     ret.add(novo);
                 }
@@ -66,7 +72,12 @@ class Solution {
                     }
             }
         }
-
-        return ret.get(0);
+        int index = -1;
+        for (int i = 0; i < ret.size(); i++)
+            if (node.val == ret.get(i).val){
+                index = i;
+                break;
+            }
+        return ret.get(index);
     }
 }
