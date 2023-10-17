@@ -2,28 +2,29 @@ import java.util.*;
 
 public class Hash {
 
-    private List<List<Pessoa>>[] vet;
+    private List<Pessoa>[][] vet;
     int tam;
 
     public Hash(int tam){
-        if (tam % 2 == 0)
-            this.tam = tam + 1;
+        if ((int)(1.25 * tam) % 2 == 0)
+            this.tam = (int)(1.25 * tam) + 1;
         else
-            this.tam = tam;
+            this.tam = (int)(1.25 * tam);
 
-        vet = new ArrayList[11];
+        vet = new List[11][this.tam/10];
 
-        for (int i = 0; i < 11; i++){
-            vet[i] = new ArrayList<>(tam/10);
-        }
+        for (int i = 0; i < 11; i ++)
+            for (int j = 0; j < this.tam/10; j++){
+                vet[i][j] = new ArrayList<>();
+            }
     }
 
-    private int firstHash(int valor){
-        return valor % 11;
+    private int firstHash(long valor){
+        return (int)(valor % 11);
     }
 
-    private int secondHash(int valor){
-        return valor % tam;
+    private int secondHash(long valor){
+        return (int)(valor % tam/10);
     }
 
     public void adiciona(Pessoa pessoa){
@@ -31,16 +32,31 @@ public class Hash {
         int second = secondHash(pessoa.cpf);
 
         Pessoa nova = new Pessoa(pessoa.cpf, pessoa.nome);
-        vet[first].get(second).add(nova);
+        vet[first][second].add(nova);
     }
 
     public Pessoa retorna(int cpf){
         int first = firstHash(cpf);
         int second = secondHash(cpf);
 
-        for (int i = 0; i < vet[first].get(second).size(); i++)
-            if (vet[first].get(second).get(i).cpf == cpf)
-                return vet[first].get(second).get(i);
+        for (int i = 0; i < vet[first][second].size(); i++)
+            if (vet[first][second].get(i).cpf == cpf)
+                return vet[first][second].get(i);
+
+        return null;
+    }
+
+    public Pessoa remove(int cpf){
+        int first = firstHash(cpf);
+        int second = secondHash(cpf);
+
+        for (int i = 0; i < vet[first][second].size(); i++)
+            if (vet[first][second].get(i).cpf == cpf) {
+                Pessoa armazena = vet[first][second].get(i);
+                vet[first][second].remove(i);
+
+                return armazena;
+            }
 
         return null;
     }
