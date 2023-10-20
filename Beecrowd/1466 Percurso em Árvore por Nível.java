@@ -31,67 +31,59 @@ class Arvore{
     }
 
     public void insere(int num){
-        int cont = 0;
         if (raiz == null){
-            No novoNo = new No(num, cont++);
-            raiz = novoNo;
+            raiz = new No(num);
             return;
         }
 
-        insere(raiz, num, cont);
+        insere(raiz, num);
     }
 
-    private void insere(No atual, int num, int cont){
+    private void insere(No atual, int num){
         if (num > atual.num) {
             if (atual.direita == null)
-                atual.direita = new No(num, cont++);
+                atual.direita = new No(num);
             else
-                insere(atual.direita, num, cont);
+                insere(atual.direita, num);
         }
         else
-            if (atual.esquerda == null)
-                atual.esquerda = new No(num, cont++);
-            else
-                insere(atual.esquerda, num, cont);
+        if (atual.esquerda == null)
+            atual.esquerda = new No(num);
+        else
+            insere(atual.esquerda, num);
     }
 
     public void printa(int quant){
         Queue<No> fila = new LinkedList<>();
-        boolean[] flag = new boolean[quant];
 
-        flag[raiz.ordem] = true;
         fila.add(raiz);
         int cont = 0;
         while (!(fila.isEmpty())){
             No atual = fila.remove();
 
-            if (cont < quant) {
+            if (cont < quant-1) {
                 System.out.print(atual.num + " ");
                 ++cont;
             } else
-                System.out.println(atual.num);
+                System.out.println(atual.num + "\n");
 
 
-            if (atual.esquerda != null && !(flag[atual.esquerda.ordem])) {
-                flag[atual.esquerda.ordem] = true;
+            if (atual.esquerda != null) {
                 fila.add(atual.esquerda);
             }
-            if (atual.direita != null && !(flag[atual.direita.ordem])){
-                flag[atual.direita.ordem] = true;
+            if (atual.direita != null){
                 fila.add(atual.direita);
             }
         }
     }
 }
 
-class No{
-    int ordem;
+class No {
     int num;
     No esquerda;
     No direita;
 
-    public No(int c, int ordem){
-        this.ordem = ordem;
+    public No(int c) {
         this.num = c;
         esquerda = null;
         direita = null;
