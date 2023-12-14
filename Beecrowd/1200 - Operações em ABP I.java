@@ -1,8 +1,34 @@
 import java.util.Stack;
+import java.util.Scanner;
 
 public class Main {
     public static void main (String[] args){
+    Scanner tc = new Scanner(System.in);
 
+    Arvore arvore = new Arvore();
+    while (tc.hasNext()){
+        String s = tc.next();
+
+        switch (s){
+            case "I" -> arvore.adiciona(tc.nextLine().toCharArray()[1]);
+            case "INFIXA" ->{
+                arvore.infixo();
+                System.out.println();
+            }
+            case "PREFIXA" ->{
+                arvore.prefixo(arvore.raiz);
+                System.out.println();
+            }
+            case "POSFIXA" ->{
+                arvore.posfixo(arvore.raiz);
+                System.out.println();
+            }
+            case "P" -> {
+                arvore.pesquisa(tc.nextLine().toCharArray()[1]);
+                System.out.println();
+            }
+        }
+    }
     }
 }
 
@@ -40,8 +66,10 @@ class Arvore{
     }
 
     public void pesquisa(char a){
-        if (raiz.content == a)
+        if (raiz.content == a) {
             System.out.print("existe");
+            return;
+        }
 
         No aux = raiz;
         while (true) {
@@ -67,7 +95,7 @@ class Arvore{
     public void infixo(){
         No aux = null;
         Stack<No> pilha = new Stack<>();
-        pilha.add(raiz);
+        pilha.push(raiz);
         while (!(pilha.isEmpty())){
             aux = pilha.pop();
             System.out.print(aux.content);
