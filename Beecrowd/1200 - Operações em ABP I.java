@@ -12,7 +12,7 @@ public class Main {
         switch (s){
             case "I" -> arvore.adiciona(tc.nextLine().toCharArray()[1]);
             case "INFIXA" ->{
-                arvore.infixo();
+                arvore.infixo(arvore.raiz);
                 System.out.println();
             }
             case "PREFIXA" ->{
@@ -28,12 +28,14 @@ public class Main {
                 System.out.println();
             }
         }
+        arvore.limpaPrintou();
     }
     }
 }
 
 class Arvore{
     No raiz;
+    boolean printou = false;
 
     public Arvore(){
         raiz = null;
@@ -67,7 +69,7 @@ class Arvore{
 
     public void pesquisa(char a){
         if (raiz.content == a) {
-            System.out.print("existe");
+            System.out.print(a + " existe");
             return;
         }
 
@@ -85,63 +87,92 @@ class Arvore{
             }
 
             if (aux.content == a){
-                System.out.print("existe");
+                System.out.print(a + " existe");
                 return;
             }
         }
 
-        System.out.print("nao existe");
+        System.out.print(a + " nao existe");
     }
-    public void infixo(){
-        No aux = null;
-        Stack<No> pilha = new Stack<>();
-        pilha.push(raiz);
-        while (!(pilha.isEmpty())){
-            aux = pilha.pop();
-            System.out.print(aux.content);
-
-            if (aux.direita != null)
-                pilha.push(aux.direita);
-            if (aux.esquerda != null)
-                pilha.push(aux.esquerda);
-        }
-
-        if (!(pilha.isEmpty()))
-            System.out.print(" ");
-    }
-
     public void prefixo(No atual){
         if (atual == null)
             return;
+
+        if (printou) {
+            System.out.print(" ");
+            printou = false;
+        }
+
+        System.out.print(atual.content);
+        printou = true;
+
         if (atual.esquerda != null) {
-            System.out.print(atual.esquerda.content + " ");
             prefixo(atual.esquerda);
         }
 
-        System.out.print(atual.content + " ");
-
-        if (atual.direita != null){
-            System.out.print(atual.direita.content + " ");
-            prefixo (atual.direita);
+        if (atual.direita != null) {
+            prefixo(atual.direita);
         }
     }
 
-    public void posfixo(No atual){
+    public void infixo(No atual){
         if (atual == null)
             return;
-        if (atual.esquerda != null) {
-            System.out.print(atual.esquerda.content + " ");
-            prefixo(atual.esquerda);
+
+        if (printou) {
+            System.out.print(" ");
+            printou = false;
         }
 
-        System.out.print(atual.content + " ");
+        if (atual.esquerda != null) {
+            infixo(atual.esquerda);
+        }
+
+        if (printou) {
+            System.out.print(" ");
+            printou = false;
+        }
+
+        System.out.print(atual.content);
+        printou = true;
 
         if (atual.direita != null){
-            System.out.print(atual.direita.content + " ");
-            prefixo (atual.direita);
+            infixo(atual.direita);
         }
     }
 
+    public void posfixo(No atual) {
+        if (atual == null)
+            return;
+
+        if (printou) {
+            System.out.print(" ");
+            printou = false;
+        }
+
+        if (atual.esquerda != null) {
+            posfixo(atual.esquerda);
+        }
+
+        if (printou) {
+            System.out.print(" ");
+            printou = false;
+        }
+
+        if (atual.direita != null) {
+            posfixo(atual.direita);
+        }
+
+        if (printou) {
+            System.out.print(" ");
+            printou = false;
+        }
+
+        System.out.print(atual.content);
+        printou = true;
+    }
+
+    public void limpaPrintou(){printou = false;}
 }
 class No{
     No direita;
